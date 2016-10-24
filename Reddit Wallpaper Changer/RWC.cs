@@ -118,8 +118,60 @@ namespace Reddit_Wallpaper_Changer
             Xml.createXML();
             populateBlacklistHistory();
             updateStatus("RWC Setup Initated.");
-            checkInternetTimer.Enabled = true;
-            delayedStart();
+            internetCheck();
+            // checkInternetTimer.Enabled = true;
+        }
+
+        //======================================================================
+        // Delay checking for wallpapers on first startup
+        //======================================================================
+        private void internetCheck()
+        {
+            Logging.LogMessageToFile("Checking for internet connectivity...");
+            for (int i = 1; i < 11; i++)
+            {    
+                try
+                {
+                    WebClient wc = Proxy.setProxy();
+                    {
+                        using (var stream = wc.OpenRead("http://www.reddit.com"))
+                        {
+                            noticeLabel.Text = "";
+                            // checkInternetTimer.Enabled = false;
+                            updateTimer();
+                            startupTimer.Enabled = true;
+                            updateStatus("Internet is working.");
+                            Logging.LogMessageToFile("Internet is working.");
+                            break;
+                        }
+                    }
+                }
+                catch
+                {
+                    updateStatus("No internet connection. Rechecking.");
+                    Logging.LogMessageToFile("Attempt " + i + "/10 Internet Unavaliable.");
+                    System.Threading.Thread.Sleep(2000);
+
+                    if (i == 10)
+                    {
+                        Logging.LogMessageToFile("RWC disabled as there is no internet access after 10 retries. Is Reddit down?");
+
+                        wallpaperChangeTimer.Enabled = false;
+                        statusMenuItem1.Checked = false;
+                        statusMenuItem1.ForeColor = Color.Red;
+                        statusMenuItem1.Text = "Not Running";
+
+                        taskIcon.BalloonTipIcon = ToolTipIcon.Error;
+                        taskIcon.BalloonTipTitle = "No Internet!";
+                        taskIcon.BalloonTipText = "RWC disabled as there is no internet connectivity after 10 retries. Is Reddit down?";
+                        taskIcon.ShowBalloonTip(750);
+
+                        break;
+                    }
+
+                }
+            }
+
         }
 
         //======================================================================
@@ -1351,7 +1403,7 @@ namespace Reddit_Wallpaper_Changer
         //======================================================================
         private void checkInternetTimer_Tick(object sender, EventArgs e)
         {
-            noticeLabel.Text = "Checking Internet Connection...";
+            statuslabel.Text = "Checking internet connection.";
             if (System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable())
             {
                 noticeLabel.Text = "";
@@ -1362,7 +1414,7 @@ namespace Reddit_Wallpaper_Changer
             }
             else
             {
-                updateStatus("Network Unavaliable. Rechecking.");
+                updateStatus("Internet unavaliable.");
                 Logging.LogMessageToFile("Network Unavaliable. Rechecking.");
             }
         }
