@@ -119,6 +119,15 @@ namespace Reddit_Wallpaper_Changer
             populateBlacklistHistory();
             updateStatus("RWC Setup Initated.");
             checkInternetTimer.Enabled = true;
+            delayedStart();
+        }
+
+        //======================================================================
+        // Delay checking for wallpapers on first startup
+        //======================================================================
+        private void delayedStart()
+        {
+            System.Threading.Thread.Sleep(15000);
         }
 
         //======================================================================
