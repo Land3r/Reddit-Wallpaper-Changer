@@ -119,11 +119,10 @@ namespace Reddit_Wallpaper_Changer
             populateBlacklistHistory();
             updateStatus("RWC Setup Initated.");
             internetCheck();
-            // checkInternetTimer.Enabled = true;
         }
 
         //======================================================================
-        // Delay checking for wallpapers on first startup
+        // Check Reddit is accessible
         //======================================================================
         private void internetCheck()
         {
@@ -133,18 +132,13 @@ namespace Reddit_Wallpaper_Changer
                 try
                 {
                     WebClient wc = Proxy.setProxy();
-                    {
-                        using (var stream = wc.OpenRead("http://www.reddit.com"))
-                        {
-                            noticeLabel.Text = "";
-                            // checkInternetTimer.Enabled = false;
-                            updateTimer();
-                            startupTimer.Enabled = true;
-                            updateStatus("Internet is working.");
-                            Logging.LogMessageToFile("Internet is working.");
-                            break;
-                        }
-                    }
+                    var stream = wc.OpenRead("http://www.reddit.com");
+                    noticeLabel.Text = "";
+                    updateTimer();
+                    startupTimer.Enabled = true;
+                    updateStatus("Internet is working.");
+                    Logging.LogMessageToFile("Internet is working.");
+                    return;
                 }
                 catch
                 {
@@ -165,13 +159,10 @@ namespace Reddit_Wallpaper_Changer
                         taskIcon.BalloonTipTitle = "No Internet!";
                         taskIcon.BalloonTipText = "RWC disabled as there is no internet connectivity after 10 retries. Is Reddit down?";
                         taskIcon.ShowBalloonTip(750);
-
-                        break;
+                        return;
                     }
-
                 }
             }
-
         }
 
         //======================================================================
