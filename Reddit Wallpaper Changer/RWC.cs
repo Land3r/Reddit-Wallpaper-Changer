@@ -1202,7 +1202,7 @@ namespace Reddit_Wallpaper_Changer
 
         //======================================================================
         // Closing the form
-        //======================================================================
+        //====================================================================== 
         private void RWC_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (!realClose)
