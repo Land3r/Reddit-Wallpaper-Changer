@@ -4,6 +4,7 @@ using System.Xml;
 
 namespace Reddit_Wallpaper_Changer
 {
+    //TODO : Remplace this by serialization system with model
     class Xml
     {
         //======================================================================

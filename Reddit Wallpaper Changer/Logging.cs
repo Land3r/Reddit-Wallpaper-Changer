@@ -3,6 +3,7 @@ using System.IO;
 
 namespace Reddit_Wallpaper_Changer
 {
+    //TODO : Replace by Log4net
     class Logging
     {
         //======================================================================

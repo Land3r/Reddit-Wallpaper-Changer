@@ -19,6 +19,8 @@ using System.Xml.Linq;
 
 namespace Reddit_Wallpaper_Changer
 {
+    //Todo : Check if display method can be improved
+    //Todo : Add a loading gif to let user know refresh is running
     public partial class RWC : Form
     {
         [DllImport("user32.dll", CharSet = CharSet.Auto)]

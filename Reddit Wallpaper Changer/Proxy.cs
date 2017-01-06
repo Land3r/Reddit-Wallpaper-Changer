@@ -2,11 +2,15 @@
 
 namespace Reddit_Wallpaper_Changer
 {
-    class Proxy
+    /// <summary>
+    /// Class that handle proxy for getting images from reddit
+    /// </summary>
+    internal class Proxy
     {
-        //======================================================================
-        // Set up proxy along with any credntials required for auth
-        //======================================================================
+        /// <summary>
+        /// Set up proxy along with any credntials required for auth
+        /// </summary>
+        /// <returns>The parameterized proxy</returns>
         public static WebClient setProxy()
         {
             WebClient wc = new WebClient();
